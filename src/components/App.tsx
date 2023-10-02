@@ -1,27 +1,21 @@
-import { Button, Container, Typography } from '@mui/material'
-import Form from './form/Form'
-import TodoList from './todoList/TodoList'
-import { useAppDispatch, useAppSelector } from '../hooks/useTypedSelector'
-import { deleteAllTodos } from '../store/reducers/todo.slice'
+import { Global, ThemeProvider } from '@emotion/react'
+import MainPage from '../pages/Main'
+import { globals } from '../assets/styles/global'
+import {FC} from 'react'
+import { theme } from '../assets/styles/theme'
+// declare module '@emotion/react' {
+//   export interface Theme {
+//     color: string
+//   }
+// }
 
-function App() {
-
-  const items = useAppSelector((state) => state.todos.items)
-  const dispatch = useAppDispatch()
-
-  const onDeleteAll = () => {
-    dispatch(deleteAllTodos())
-  }
+const App: FC = () => {
   
   return (
-    <Container>
-      <Typography>
-        Hello there mui
-      </Typography>
-      <Form/>
-      <Button onClick={onDeleteAll} variant='contained'>Delete all</Button>
-      <TodoList items={items}/>
-    </Container>
+    // <ThemeProvider theme={theme}>
+      <MainPage/>
+    // {/* </ThemeProvider> */}
+   
   );
 }
 
