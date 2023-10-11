@@ -1,28 +1,31 @@
-import { FC } from 'react'
-// import styles from './TodoItem.module.scss'
+import CheckIcon from '@mui/icons-material/Check'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { Button, Grid } from '@mui/material'
-import { ITodoItem } from '../../types/todo.interface'
-// import { useAppDispatch } from '../../hooks/useTypedSelector'
-// import { deleteTodo } from '../../store/reducers/todo.slice'
+import Skeleton from '@mui/material/Skeleton'
+import { FC, useEffect, useState, memo } from 'react'
 import { useActions } from '../../hooks/useActions'
-import CheckIcon from '@mui/icons-material/Check';
-import styled from '@emotion/styled'
-
-interface IItem {
-  item: ITodoItem
-}
-
-// const StyledCard = styled.div`
-//   padding: 10px;
-
-// `
+import { capitalize } from '../../utils/capitalize'
+import { SButton } from '../button/ButtonUi'
+import { IItem } from './TodoItem.interface'
+import { SItem } from './TodoItemUi'
+import { css } from '@emotion/css'
+import { Typography } from '@mui/material'
 
 const TodoItem: FC<IItem> = ({item}) => {
+  
+  const {deleteTodo, toggleTodo, openModal} = useActions()
+  
+  // loading immitation (totally unnecessary)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const {deleteTodo, toggleTodo} = useActions()
-
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
+    }
+  }, [isLoading])
+  
   const onDelete = () => {
     deleteTodo(item.id)
   }
@@ -32,34 +35,33 @@ const TodoItem: FC<IItem> = ({item}) => {
   }
 
   return (
-    // <Grid container spacing={2} sx={{backgroundColor: item.completed ? 'green' : 'transparent'}}>
-    //   <Grid item xs={6}>
-    //     {item.task}
-    //   </Grid>
-    //   <Grid item xs={2}>
-    //     {item.status}
-    //   </Grid>
-    //   <Grid item xs={2}>
-    //     {item.category}
-    //   </Grid>
-    //   <Grid item xs={2}>
-    //     <Button variant='outlined'>
-    //       <EditIcon/>
-    //     </Button>
-    //     <Button variant='outlined' onClick={onToggle}>
-    //       <CheckIcon/>
-    //     </Button>
-    //     <Button onClick={onDelete} variant='outlined' color='error'>
-    //       <DeleteIcon />
-    //     </Button>
-    //   </Grid>
-    // </Grid>
-    // <StyledCard>
-    //   {item.task}
-    //   {item.status}
-    //   {item.category}
-    // </StyledCard>
-    <div></div>
+    <>
+      {isLoading ? (
+        <Skeleton height={100} animation="wave" />
+      ): (
+        <SItem item={item}>
+          <div><Typography variant='body1'>{capitalize(item.task)}</Typography></div>
+          <div><Typography variant='body1'>{capitalize(item.category)}</Typography></div>
+          <div 
+            className={css`
+              ${item.completed && ('text-decoration: line-through;')}
+            `}
+          >
+            <Typography variant='body1'>{item.status}</Typography>
+          </div>
+          <SButton variant='outlined' onClick={() => openModal(item)} radius='10'>
+            <EditIcon/>
+          </SButton>
+          <SButton variant='success' onClick={onToggle} radius='10'>
+            <CheckIcon/>
+          </SButton>
+          <SButton variant='danger' onClick={onDelete} radius='10'>
+            <DeleteIcon />
+          </SButton>
+        </SItem>
+      )}
+    </>
+    
   )
 }
 

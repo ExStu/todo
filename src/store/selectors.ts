@@ -3,4 +3,4 @@ import { RootState } from './store'
 
 export const getItems = (state: RootState) => state.todos.items
 
-export const getModalState = (state: RootState) => state.modal.isOpen
+export const getModalState = (state: RootState) => state.modal

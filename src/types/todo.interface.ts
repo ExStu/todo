@@ -7,9 +7,9 @@ export interface ITodoItem {
 }
 
 export enum TodoStatusEnum {
-  Planned = 'planned',
-  InProgress = 'inProgress',
-  Done = 'done'
+  Planned = 'Planned',
+  InProgress = 'InProgress',
+  // Done = 'Done'
 }
 
 export enum CategoryEnum {

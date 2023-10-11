@@ -14,12 +14,6 @@ export const todoSlice = createSlice({
       state.items.push(action.payload)
     },
     editTodo: (state, {payload}: PayloadAction<ITodoItem>) => {
-      // state.items.forEach((item) => {
-      //   if (item.id === action.payload.id) {
-      //     item.status = action.payload.status
-      //     item.task = action.payload.task
-      //   }
-      // })
       const todo = state.items.find((item) => item.id === payload.id)
       if (todo) {
         todo.task = payload.task
@@ -42,10 +36,3 @@ export const todoSlice = createSlice({
     }
   }
 })
-
-// export const {
-//   addTodo,
-//   editTodo,
-//   deleteTodo,
-//   deleteAllTodos
-// } = todoSlice.actions
